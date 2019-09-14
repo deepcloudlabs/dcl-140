@@ -20,7 +20,7 @@ SRC = 			\
 
 OBJ = $(SRC:.c=.o)
 
-LIBS = -lposix4 -lsocket -lnsl -lpthread
+LIBS = -lnsl -lpthread
 
 $(OBJ) : sms.h
 

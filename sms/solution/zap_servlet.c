@@ -8,7 +8,7 @@
 #include "sms.h"
 
 void zap_servlet(Servlet * victim) {   /* remove and free memory    */
-  int out;
+  int out,CLK_TCK;
   Stats * newstat;
   char mess[50];
 
@@ -26,6 +26,7 @@ void zap_servlet(Servlet * victim) {   /* remove and free memory    */
   newstat->cust_ip = victim->cust_ip;
   newstat->size = victim->chars_read;
   strcpy(newstat->dest,victim->dest);
+  CLK_TCK = sysconf(_SC_CLK_TCK);
   newstat->connect = 0.5 + (victim->finish - victim->start)/(double)CLK_TCK;
   newstat->aborted = victim->aborted;
 

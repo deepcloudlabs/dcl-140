@@ -7,7 +7,7 @@
  *		b) Fire off threads for garbo and listen_port
  *		c) Run the menu
  */
-
+#include <pthread.h>
 #include "sms.h"
 
 Servlet * door;		/* entrance to doubly linked list	*/
@@ -27,7 +27,7 @@ Menu_item choice[] = {
   { NULL, NULL }
 } ;
 
-main(int argc, char **argv) {
+int main(int argc, char **argv) {
   int port = PORT;
   if (argc == 2)
     port = atoi(argv[1]);

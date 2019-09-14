@@ -8,7 +8,6 @@
 #include <sys/types.h>
 #include <sys/times.h>
 #include <sys/socket.h>
-#include <sys/conf.h>
 #include <stropts.h>
 #include <netdb.h>
 #include <netinet/in.h>
