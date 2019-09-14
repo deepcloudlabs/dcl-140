@@ -1,0 +1,55 @@
+Here is the specification of a multi-threaded client-server project.
+
+General scenario: client connects, sends message.  Message is put into a file
+with the name of the destination.
+
+1. Client-side. Client specifies a destination and a message.
+	No code required - just use telnet.
+	We'll have to trust the clients to do it right, ie
+	line1 is the destination, subsequent lines the message.
+
+2. Server-side. The server screen has a menu
+
+		Display number of current connections
+		Display statistics (average conect time etc)
+		Re-start statistics gathering
+		Kill stale clients
+
+Implementation :
+
+Server consists of a number of separate threads :
+
+	1) A port-listener : sits in a forever accept loop
+		and fires up a servlet thread for each new client.
+
+	2) A user interface
+
+	3) A tidier and stats gatherer. This thread monitors
+	   the activity of all of the servlet threads. It also
+	   shuffles the array of data-structures representing
+	   these servlets. It commits completed messages to
+	   files, one per destination.
+
+	4) Servlet threads (one per client).
+
+3. Issues. Some mutex locking and semaphores will be needed
+   to ensure communication between the various threads.
+
+4. Pthreads : You will need to use the following :
+	pthread_attr_init();
+	pthread_attr_setdetachstate();
+	pthread_cancel();
+	pthread_create();
+	pthread_mutex_lock();
+	pthread_mutex_unlock();
+        sem_wait();			/* P */
+	sem_post();			/* V */
+  Consult the manual for details.
+
+5. Data structures : 
+	a) servlets are joined in a doubly linked list
+           for ease of uncoupling.
+	b) The stats and the in_tray are both singly linked
+	   lists and tend to be treated like stacks.
+	c) The menu structure almost explains itself!
+   Details are in sms.h (q.v.)
